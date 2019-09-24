@@ -1,0 +1,103 @@
+<template>
+  <div>
+    <el-table :data="tableData" border style="width: 100%">
+      <el-table-column prop="userId" label="用户 ID"></el-table-column>
+      <el-table-column prop="userName" label="姓名"></el-table-column>
+      <el-table-column prop="ctypeName" label="职业"></el-table-column>
+      <el-table-column prop="activityName" label="活动名称"></el-table-column>
+      <el-table-column prop="beginTime" label="活动时间"></el-table-column>
+      <el-table-column prop="address" label="照片">
+        <template slot-scope="scope">
+          <el-popover placement="right" title trigger="click">
+            <el-image
+              slot="reference"
+              fit="contain"
+              :src="scope.row.photoUrl"
+              :alt="scope.row.photoUrl"
+              style="max-height: 200px;max-width: 200px"
+            ></el-image>
+            <el-image :src="scope.row.photoUrl"></el-image>
+          </el-popover>
+        </template>
+      </el-table-column>
+      <el-table-column prop="address" label="审核">
+        <template slot-scope="scope">
+          <el-button type="primary" size="small" v-on:click="bossPass(scope.row.rid)">通过</el-button>
+          <el-button type="primary" size="small" @click="changeStatus(scope.row.rid)">未通过</el-button>
+        </template>
+      </el-table-column>
+    </el-table>
+    <div class="block" style="text-align:center;">
+      <el-pagination
+        @size-change="handleSizeChange"
+        @current-change="handleCurrentChange"
+        :current-page.sync="currentPage3"
+        :page-size="20"
+        layout="prev, pager, next, jumper"
+        :total="total"
+      ></el-pagination>
+    </div>
+  </div>
+</template>
+
+<script>
+export default {
+  data() {
+    return {
+      tableData: [],
+      currentPage3: 1, //默认展示第几页
+      total: 0
+    };
+  },
+  methods: {
+    handleSizeChange(val) {
+      console.log(`每页 ${val} 条`);
+    },
+    handleCurrentChange(val) {
+      console.log(`当前页: ${val}`);
+      this.$http
+        .lookLvli({
+          page: this.currentPage3
+        })
+        .then(res => {
+          this.tableData = res.data;
+          console.log("lvliList", res.data);
+        });
+    },
+    // 审核通过
+    bossPass(e) {
+      this.$http
+        .SHLvli({
+          rid: e,
+          state: 2
+        })
+        .then(res => {
+          if (res.data == 1) {
+            this.$message.success("履历审核通过");
+            this.handleCurrentChange(1);
+          }
+        });
+    },
+    // 审核不通过
+    changeStatus(e) {
+      this.$http
+        .SHLvli({
+          rid: e,
+          state: 3
+        })
+        .then(res => {
+          if (res.data == 1) {
+            this.$message.success("履历审核不通过");
+            this.handleCurrentChange(1);
+          }
+        });
+    }
+  },
+  mounted() {
+    this.handleCurrentChange(1);
+  }
+};
+</script>
+
+<style lang="less" scoped>
+</style>
