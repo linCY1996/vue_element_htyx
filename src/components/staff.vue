@@ -375,17 +375,17 @@ export default {
     },
     handleCurrentChange(val) {
       console.log(`当前页: ${val}`);
-      var that = this;
+      // var that = this;
       this.$http
-        .getStaffList({
+        .getBossList({
           cid: this.cid,
           state: 2,
-          page: that.currentPage3,
+          page: this.currentPage3,
           roleType: 3,
           condition: null
         })
         .then(res => {
-          that.tableData = res.data;
+          this.tableData = res.data;
           console.log("staffList", res.data);
         });
     },
