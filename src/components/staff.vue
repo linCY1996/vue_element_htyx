@@ -35,6 +35,7 @@
         </template>
       </el-table-column>
       <el-table-column label="用户 ID" prop="userId"></el-table-column>
+      <el-table-column label="昵称" prop="userName"></el-table-column>
       <el-table-column label="职业" prop="ctypeName"></el-table-column>
       <el-table-column label="模卡" prop="officialPhotoUrl">
         <template slot-scope="scope">
@@ -92,7 +93,7 @@
         @size-change="handleSizeChange"
         @current-change="handleCurrentChange"
         :current-page.sync="currentPage3"
-        :page-size="20"
+        :page-size="11"
         layout="prev, pager, next, jumper"
         :total="total"
       ></el-pagination>
@@ -328,6 +329,7 @@
 </template>
 
 <script>
+import Vue from 'vue';
 export default {
   inject: ["reload"],
   props: {
@@ -386,7 +388,10 @@ export default {
         })
         .then(res => {
           this.tableData = res.data;
-          console.log("staffList", res.data);
+          console.log("staffList", res);
+          if(res.data.length != 0) {
+            this.total = res.data[0].ipage.total
+          }
         });
     },
     // 观看video

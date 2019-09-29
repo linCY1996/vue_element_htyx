@@ -1,6 +1,10 @@
 <template>
   <!--查看抢单状态-->
-  <el-dialog :title="'海豚印象订单'+orderMsg.orderId+'的抢单情况'" :visible.sync="dialogVisible" :before-close="closeDialog">
+  <el-dialog
+    :title="'海豚印象订单'+orderMsg.orderId+'的抢单情况'"
+    :visible.sync="dialogVisible"
+    :before-close="closeDialog"
+  >
     <div style="display: flex;flex-direction: column;align-items: flex-start;font-weight: 700">
       <div>
         <span>活动地址:</span>
@@ -76,6 +80,7 @@
 </template>
 
 <script>
+import Vue from "vue";
 export default {
   props: ["dialogVisible"],
   data() {
@@ -118,6 +123,15 @@ export default {
               if (res.data != -1) {
                 that.selectedList = res.data;
               }
+              that.$http
+                .finddependOrderUser({
+                  oid: that.oid
+                })
+                .then(res => {
+                  // 查询所有可选人员
+                  console.log("canChoooseuser", res.data);
+                  that.staffA = res.data;
+                });
               that.setIime = setInterval(function() {
                 that.$http
                   .finddependOrderUser({
@@ -170,6 +184,6 @@ export default {
 
 <style scoped>
 .el-dialog__headerbtn {
-    display:none;
+  display: none;
 }
 </style>

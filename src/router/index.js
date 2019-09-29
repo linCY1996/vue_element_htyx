@@ -94,8 +94,8 @@ export const constantRouterMap = [
 
 //注册路由
 export default new Router({
-	mode: 'history', // 默认为'hash'模式
-	base: '/Dophine/', // 添加跟目录,对应服务器部署子目录
+	mode: 'hash', // 默认为'hash'模式
+	base: '/admin', // 添加跟目录,对应服务器部署子目录
 	routes: constantRouterMap
 })
 
@@ -115,7 +115,7 @@ export const asyncRouterMap = [
 				path: 'Acontrol',
 				name: 'errorPage',
 				meta: {
-					title: '甲方审核',
+					title: '甲方管理',
 					routerType: 'leftmenu'
 				},
 				component: () => import('@/page/AControl'),

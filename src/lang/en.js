@@ -7,7 +7,7 @@ const zh = {
       quit: '退出登录',
       hi: '海豚',
       index: '审核中心',
-      userManage: '甲方审核',
+      userManage: '甲方管理',
       share: '人员管理',
       infoManage: '订单管理',
       infoShow: '评价反馈',

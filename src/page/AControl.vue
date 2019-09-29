@@ -31,7 +31,7 @@
         @size-change="handleSizeChange"
         @current-change="handleCurrentChange"
         :current-page.sync="currentPage3"
-        :page-size="20"
+        :page-size="11"
         layout="prev, pager, next, jumper"
         :total="total"
       ></el-pagination>
@@ -106,6 +106,9 @@ export default {
         .then(res => {
           that.tableData = res.data;
           console.log("bossPassList", res.data);
+          if(res.data.length != 0) {
+            this.total = res.data[0].ipage.total
+          }
         });
     },
 

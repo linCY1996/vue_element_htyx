@@ -37,7 +37,7 @@
         @size-change="handleSizeChange"
         @current-change="handleCurrentChange"
         :current-page.sync="currentPage3"
-        :page-size="20"
+        :page-size="11"
         layout="prev, pager, next, jumper"
         :total="total"
       ></el-pagination>
@@ -46,6 +46,7 @@
 </template>
 
 <script>
+import Vue from 'vue';
 export default {
   props: ["type", "evaluateType"],
   data() {
@@ -69,6 +70,9 @@ export default {
         .then(res => {
           this.tableData = res.data;
           console.log("CommandList", res.data);
+          if(res.data.length != 0) {
+            this.total = res.data[0].ipage.total
+          }
         });
     },
     // 删除

@@ -56,6 +56,7 @@
   </el-dialog>
 </template>
 <script>
+import Vue from 'vue';
 export default {
   props: ["isShowOrder"],
   data() {

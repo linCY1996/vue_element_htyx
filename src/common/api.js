@@ -3,7 +3,8 @@ import { Message } from 'element-ui';  //element库的消息提示，可以不�
 import qs from 'qs'
 
 const instance = axios.create({
-    baseURL:'http://47.108.66.16:8081',   //体验服
+    // baseURL:'http://47.108.66.16:8081',   //体验服
+    baseURL:'http://47.108.26.160:8081', //线上服
     timeout: 20000
 })
 
