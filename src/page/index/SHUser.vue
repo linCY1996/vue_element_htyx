@@ -35,6 +35,7 @@
         </template>
       </el-table-column>
       <el-table-column label="用户 ID" prop="userId"></el-table-column>
+      <el-table-column label="姓名" prop="userName"></el-table-column>
       <el-table-column label="职业" prop="ctypeName"></el-table-column>
       <el-table-column label="模卡" prop="officialPhotoUrl">
         <template slot-scope="scope">

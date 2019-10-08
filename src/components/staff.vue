@@ -1,5 +1,21 @@
 <template>
   <div>
+    <div style>
+      <el-input
+        placeholder="请输入内容"
+        v-model="inputMsgs"
+        class="input-with-select"
+        style="width:30%;margin-left:-40px"
+      >
+        <el-select v-model="selectClass" slot="prepend" placeholder="请选择">
+          <el-option label="礼仪" value="1"></el-option>
+          <el-option label="模特" value="2"></el-option>
+          <el-option label="乐队" value="3"></el-option>
+          <el-option label="舞团" value="4"></el-option>
+        </el-select>
+        <el-button slot="append" icon="el-icon-search" @click="lookUser"></el-button>
+      </el-input>
+    </div>
     <el-table :data="tableData" style="width: 100%">
       <el-table-column type="expand">
         <template slot-scope="props">
@@ -34,6 +50,7 @@
           </el-form>
         </template>
       </el-table-column>
+      <el-table-column label="编号" prop="index"></el-table-column>
       <el-table-column label="用户 ID" prop="userId"></el-table-column>
       <el-table-column label="昵称" prop="userName"></el-table-column>
       <el-table-column label="职业" prop="ctypeName"></el-table-column>
@@ -81,6 +98,7 @@
       </el-table-column>
       <el-table-column label="身高" prop="height"></el-table-column>
       <el-table-column label="体重" prop="weight"></el-table-column>
+      <el-table-column label="价格" prop="price"></el-table-column>
       <el-table-column label="审核" prop="desc">
         <template slot-scope="scope">
           <el-button type="primary" @click="updateUser(scope.row)">修改</el-button>
@@ -318,9 +336,7 @@
           <input type="text" style="width: 60px;margin-right: 10px;height: 22px" v-model="price" />
         </div>
         <div>
-          <el-button
-            style="margin-left: 400px;margin-top: 30px"
-            @click="submitForm(videoUrl)">确认提交</el-button>
+          <el-button style="margin-left: 400px;margin-top: 30px" @click="submitForm(videoUrl)">确认提交</el-button>
           <span id="result" style="margin-left: 80px"></span>
         </div>
       </div>
@@ -329,7 +345,7 @@
 </template>
 
 <script>
-import Vue from 'vue';
+import Vue from "vue";
 export default {
   inject: ["reload"],
   props: {
@@ -337,6 +353,8 @@ export default {
   },
   data() {
     return {
+      inputMsgs: "", //输入信息
+      selectClass: "", //搜索类别
       tableData: [],
       currentPage3: 1, //默认展示第几页
       total: 0,
@@ -387,10 +405,14 @@ export default {
           condition: null
         })
         .then(res => {
-          this.tableData = res.data;
+          var list = res.data;
+          list.forEach(function(item, i) {
+            item.index = i+1;
+          });
+          this.tableData = list;
           console.log("staffList", res);
-          if(res.data.length != 0) {
-            this.total = res.data[0].ipage.total
+          if (res.data.length != 0) {
+            this.total = res.data[0].ipage.total;
           }
         });
     },
@@ -430,6 +452,28 @@ export default {
       this.$http.getType({}).then(res => {
         this.jobType = res.data;
       });
+    },
+    // 搜索信息
+    // 礼仪  1  。。 模特    2  。。 乐队  3  。。。   舞团  4
+    lookUser() {
+      this.tableData = [];
+      // console.log("selectClass", this.selectClass)
+      // console.log("inputMsg", this.inputMsgs)
+      this.$http
+        .getBossList({
+          cid: this.cid,
+          state: 2,
+          page: this.currentPage3,
+          roleType: 3,
+          condition: this.inputMsgs
+        })
+        .then(res => {
+          this.tableData = res.data;
+          console.log("staffList", res);
+          if (res.data.length != 0) {
+            this.total = res.data[0].ipage.total;
+          }
+        });
     },
     // 上传视频
     video(dolphinVideoUrl) {
@@ -645,21 +689,23 @@ export default {
       formData.append("pType", 5);
 
       let _this = this;
-      _this.$ajax({
-        url: _this.Global.host + "/user/updateFile",
-        method: "POST",
-        data: formData,
-        processData: false, //  告诉jquery不要处理发送的数据
-        contentType: false, // 告诉jquery不要设置content-Type请求头
-      }).then(res => {
-        if (res.data.success == true) {
+      _this
+        .$ajax({
+          url: _this.Global.host + "/user/updateFile",
+          method: "POST",
+          data: formData,
+          processData: false, //  告诉jquery不要处理发送的数据
+          contentType: false // 告诉jquery不要设置content-Type请求头
+        })
+        .then(res => {
+          if (res.data.success == true) {
             _this.dolphinPicList2 = res.data.data;
             _this.$message.success("图片修改成功");
             _this.reload();
           } else {
             _this.$message.error("图片修改失败");
           }
-      })
+        });
     },
     img7: function(img7) {
       var file = document.getElementById("newimg7").files[0];
@@ -675,25 +721,27 @@ export default {
       formData.append("pType", 5);
 
       let _this = this;
-      _this.$ajax({
-        url: _this.Global.host + "/user/updateFile",
-        method: "POST",
-        data: formData,
-        processData: false, //  告诉jquery不要处理发送的数据
-        contentType: false, // 告诉jquery不要设置content-Type请求头
-      }).then(res => {
-        if (res.data.success == true) {
+      _this
+        .$ajax({
+          url: _this.Global.host + "/user/updateFile",
+          method: "POST",
+          data: formData,
+          processData: false, //  告诉jquery不要处理发送的数据
+          contentType: false // 告诉jquery不要设置content-Type请求头
+        })
+        .then(res => {
+          if (res.data.success == true) {
             _this.dolphinPicList3 = res.data.data;
             _this.$message.success("图片修改成功");
             _this.reload();
           } else {
             _this.$message.error("图片修改失败");
           }
-      })
+        });
     },
     //上传表单
     submitForm: function(videoUrl) {
-      console.log("45454")
+      console.log("45454");
       let file = document.getElementById("staffvideo").files[0];
       //console.log(file)
       if (videoUrl == null || videoUrl == undefined) {
@@ -717,25 +765,25 @@ export default {
       formData.append("jobType", 2);
       console.log(formData);
       let _this = this;
-      _this.$ajax({
-        url: _this.Global.host + "/user/updateUser",
-        method: "POST",
-        data: formData,
-        async: false,
-        cache: false,
-        contentType: false,
-        processData: false,
-        
-      }).then(res => {
-        if(res.data.success == true) {
-          _this.$message.success("用户信息修改成功")
-          _this.handleCurrentChange(1)
-        }else {
-          _this.$message.error("用户信息修改失败")
-        }
-        _this.xiugai = false
-        
-      })
+      _this
+        .$ajax({
+          url: _this.Global.host + "/user/updateUser",
+          method: "POST",
+          data: formData,
+          async: false,
+          cache: false,
+          contentType: false,
+          processData: false
+        })
+        .then(res => {
+          if (res.data.success == true) {
+            _this.$message.success("用户信息修改成功");
+            _this.handleCurrentChange(1);
+          } else {
+            _this.$message.error("用户信息修改失败");
+          }
+          _this.xiugai = false;
+        });
     }
   },
   mounted() {
@@ -785,5 +833,11 @@ td:hover {
 
 .el-carousel {
   height: 225px;
+}
+.el-select .el-input {
+  width: 130px;
+}
+.input-with-select .el-input-group__prepend {
+  background-color: #fff;
 }
 </style>

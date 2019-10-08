@@ -8,7 +8,7 @@
     <div style="display: flex;flex-direction: column;align-items: flex-start;font-weight: 700">
       <div>
         <span>活动地址:</span>
-        <span>{{orderMsg.address}}</span>
+        <span>{{orderMsg.activityAddress}}</span> 
       </div>
       <el-divider></el-divider>
       <div>
@@ -91,8 +91,8 @@ export default {
       qiangForm: {
         userId: []
       },
+      oid:'',   //订单id
       selectedList: [], //查看订单人选
-      oid: "", //订单id
       setIime: {},
       str: false
     };
@@ -106,9 +106,10 @@ export default {
     showData(oid) {
       var that = this;
       that.oid = oid;
+      console.log("oid", that.oid)
       that.$http
         .lookOrderMsgs({
-          oid: oid
+          oid: that.oid
         })
         .then(res => {
           console.log("msgs", res.data);

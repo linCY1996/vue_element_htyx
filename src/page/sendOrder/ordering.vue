@@ -33,7 +33,7 @@
     <!-- 发布订单 -->
     <sendOrder ref="sendChild" :isShowOrder.sync="isShowOrder"></sendOrder>
     <!-- 查看订单 -->
-    <qiang ref="children" :dialogVisible.sync="dialogVisible"></qiang>
+    <qiang ref="children" :dialogVisible.sync="dialogVisible" :oid='oid'></qiang>
   </div>
 </template>
 
@@ -52,6 +52,7 @@ export default {
       total: 0,
       isShowOrder:false,  //发布订单
       dialogVisible:false,   //查看订单
+      oid:'',   //订单id
     };
   },
   methods: {
