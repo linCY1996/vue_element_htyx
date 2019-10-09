@@ -92,4 +92,7 @@ function timestamp(url) {
 
         //创建一个平台给兼职的独立订单
         createIndepentOrder: l => httpRequest.post('/order/createIndependent', l),
+
+        // 删除已选人员
+        delSelectUser: l => httpRequest.post('/order/delByUserId', l),
   }

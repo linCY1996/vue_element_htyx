@@ -51,7 +51,32 @@
 
             <el-button type="primary" size="small" @click="selected">确认加入</el-button>
             <el-divider></el-divider>
-            <div style="width: 100%;height: 400px;overflow-y:auto;">
+            <el-form-item label="人员选择" prop="type" id="priceDiv">
+              <el-checkbox-group
+                v-model="qiangForm.outUserId"
+                style="width: 100%;height: 400px;overflow-y:auto;display: flex;flex-direction: row;flex-wrap: wrap;"
+              >
+                <el-checkbox
+                  v-for="(item,index) in selectedList"
+                  :label="item.userId"
+                  name="type"
+                  :key="index"
+                >
+                  <div>
+                    <el-image style="width: 80px; height: 80px" :src="item.photoUrl" fit="cover"></el-image>
+                    <div>
+                      &nbsp;
+                      <span>{{item.cname}}</span>
+                      &nbsp;
+                      <span>{{item.userName}}</span>
+                    </div>
+                    <div style="text-align:center">价格:{{item.price}}</div>
+                  </div>
+                </el-checkbox>
+              </el-checkbox-group>
+            </el-form-item>
+            <el-button type="primary" size="small" @click="goOutSelected()">确认移出</el-button>
+            <!-- <div style="width: 100%;height: 400px;overflow-y:auto;">
               <div style="display: flex;flex-wrap: wrap;">
                 <div style="text-align: left">已选人员</div>
                 <div
@@ -68,7 +93,7 @@
                   <div style="text-align:center">价格:{{item.price}}</div>
                 </div>
               </div>
-            </div>
+            </div> -->
           </el-form>
         </div>
       </div>
@@ -90,7 +115,8 @@ export default {
       qiang: 0,
       staffA: [], //查询可选人员
       qiangForm: {
-        userId: []
+        userId: [],   //已选人员
+        outUserId:[]   //删除人员
       },
       oid:'',   //订单id
       selectedList: [], //查看订单人选
@@ -176,10 +202,24 @@ export default {
               .then(res => {
                 this.reload()
                 // console.log("endRes", res);
+                this.showData(this.oid)
                 this.selectedList = res.data;
               });
           }
         });
+    },
+    // 确定移除
+    goOutSelected() {
+      // console.log("out", this.qiangForm.outUserId[0])
+      // console.log("orderId", this.orderMsg.orderId)
+      this.$http.delSelectUser({
+        userId:this.qiangForm.outUserId[0],
+        orderId:this.orderMsg.orderId
+      }).then(res => {
+        this.showData(this.oid)
+        this.qiangForm.outUserId = []
+        console.log("res", res)
+      })
     }
   },
   mounted() {}
