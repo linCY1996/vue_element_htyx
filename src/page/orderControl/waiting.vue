@@ -171,9 +171,30 @@
                   </el-checkbox>
                 </el-checkbox-group>
               </el-form-item>
-
               <el-button type="primary" size="small" @click="selected">确认加入</el-button>
               <el-divider></el-divider>
+              <el-form-item label="已选人员" prop="type" id="priceDiv">
+                <el-checkbox-group
+                  v-model="qiangForm.outUserId"
+                  style="width: 100%;height: 400px;overflow-y:auto;display: flex;flex-direction: row;flex-wrap: wrap;"
+                >
+                  <el-checkbox
+                    v-for="(item,index) in staffA"
+                    :label="item.userId"
+                    name="type"
+                    :key="index"
+                  >
+                    <div>
+                      <el-image style="width: 80px; height: 80px" :src="item.photoUrl" fit="cover"></el-image>
+                      <div>
+                        <span>{{item.cname}}</span>
+                        <span>{{item.userName}}</span>
+                      </div>
+                      <div>价格:{{item.price}}</div>
+                    </div>
+                  </el-checkbox>
+                </el-checkbox-group>
+              </el-form-item>
               <div style="width: 100%;height: 400px;overflow-y:auto;">
                 <div style="display: flex;flex-wrap: wrap;">
                   <div style="text-align: left">已选人员</div>
@@ -360,7 +381,8 @@ export default {
       qiang: 0,
       staffA: [], //所有可选择的人员
       qiangForm: {
-        userId: []
+        userId: [],   //已选人员
+        outUserId:[]   //删除已选人员
       },
       selectedList: [], //所有可选择抢单人员
       isCart: false,
@@ -518,6 +540,17 @@ export default {
               });
           }
         });
+    },
+    // 确定移除已选人员
+    goOutSelected() {
+      this.$http.delSelectUser({
+        userId:this.qiangForm.outUserId[0],
+        orderId:this.oneOrder.oid
+      }).then(res => {
+        this.showOneOrder(this.oneOrder.oid)
+        this.qiangForm.outUserId = []
+        console.log("res", res)
+      })
     },
     // 结束抢单
     toStart(oid) {

@@ -51,7 +51,7 @@
 
             <el-button type="primary" size="small" @click="selected">确认加入</el-button>
             <el-divider></el-divider>
-            <el-form-item label="人员选择" prop="type" id="priceDiv">
+            <el-form-item label="已选人员" prop="type" id="priceDiv">
               <el-checkbox-group
                 v-model="qiangForm.outUserId"
                 style="width: 100%;height: 400px;overflow-y:auto;display: flex;flex-direction: row;flex-wrap: wrap;"
