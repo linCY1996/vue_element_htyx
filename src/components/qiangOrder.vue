@@ -83,6 +83,7 @@
 import Vue from "vue";
 export default {
   props: ["dialogVisible"],
+  inject:["reload"],
   data() {
     return {
       orderMsg: {},
@@ -106,20 +107,21 @@ export default {
     showData(oid) {
       var that = this;
       that.oid = oid;
-      console.log("oid", that.oid)
+      that.staffA = [];
+      that.selectedList = [];
       that.$http
         .lookOrderMsgs({
           oid: that.oid
         })
         .then(res => {
-          console.log("msgs", res.data);
+          // console.log("msgs", res.data);
           that.orderMsg = res.data;
           that.$http
             .lookMainOrder({
               oid: that.oid
             })
             .then(res => {
-              console.log("res", res);
+              // console.log("res", res);
               // 查询订单人选
               if (res.data != -1) {
                 that.selectedList = res.data;
@@ -130,7 +132,7 @@ export default {
                 })
                 .then(res => {
                   // 查询所有可选人员
-                  console.log("canChoooseuser", res.data);
+                  // console.log("canChoooseuser", res.data);
                   that.staffA = res.data;
                 });
               that.setIime = setInterval(function() {
@@ -140,7 +142,7 @@ export default {
                   })
                   .then(res => {
                     // 查询所有可选人员
-                    console.log("canChoooseuser", res.data);
+                    // console.log("canChoooseuser", res.data);
                     that.staffA = res.data;
                   });
               }, 10000);
@@ -149,7 +151,7 @@ export default {
     },
     // 确认加入
     selected() {
-      console.log("true", this.qiangForm.userId);
+      // console.log("true", this.qiangForm.userId);
       let uid = this.qiangForm.userId;
       let uidStr = "";
       for (let i in uid) {
@@ -165,14 +167,15 @@ export default {
           userIdStr: uidStr
         })
         .then(res => {
-          console.log("resData", res);
+          // console.log("resData", res);
           if (res.data == 1) {
             this.$http
               .lookMainOrder({
                 oid: this.oid
               })
               .then(res => {
-                console.log("endRes", res);
+                this.reload()
+                // console.log("endRes", res);
                 this.selectedList = res.data;
               });
           }

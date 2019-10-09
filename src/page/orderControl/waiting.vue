@@ -370,10 +370,8 @@ export default {
   },
   methods: {
     handleSizeChange(val) {
-      console.log(`每页 ${val} 条`);
     },
     handleCurrentChange(val) {
-      console.log(`当前页: ${val}`);
       var that = this;
       this.$http
         .getOrderList({
@@ -385,7 +383,6 @@ export default {
         })
         .then(res => {
           that.tableData = res.data;
-          console.log("waitingList", res.data);
           if(res.data.length != 0) {
             this.total = res.data[0].ipage.total
           }
@@ -423,7 +420,6 @@ export default {
       for (var i = 0; i < job.length; i++) {
         for (var j = 0; j < this.jobType.length; j++) {
           if (job[i] == this.jobType[j].cid) {
-            console.log("here");
             if (i == 0) {
               str += "c" + job[i] + "-" + this.jobType[j].price;
             } else {
@@ -454,7 +450,6 @@ export default {
     },
     resetForm() {
       var that = this;
-      console.log("456");
       that.reload();
     },
     // 查看抢单情况
@@ -474,7 +469,6 @@ export default {
                 oid: oid
               })
               .then(res => {
-                console.log("UserList", res.data);
                 that.staffA = res.data;
               });
           that.setIime = setInterval(function() {
@@ -483,7 +477,6 @@ export default {
                 oid: oid
               })
               .then(res => {
-                console.log("UserList", res.data);
                 that.staffA = res.data;
               });
           }, 10000);
@@ -493,14 +486,12 @@ export default {
               oid: this.oneOrder.oid
             })
             .then(res => {
-              console.log("endRes", res);
               this.selectedList = res.data;
             });
         });
     },
     // 确认加入
     selected() {
-      console.log("true", this.qiangForm.userId);
       let uid = this.qiangForm.userId;
       let uidStr = "";
       for (let i in uid) {
@@ -517,14 +508,12 @@ export default {
           userIdStr: uidStr
         })
         .then(res => {
-          console.log("resData", res);
           if (res.data == 1) {
             this.$http
               .lookMainOrder({
                 oid: this.oneOrder.oid
               })
               .then(res => {
-                console.log("endRes", res);
                 this.selectedList = res.data;
               });
           }
@@ -537,7 +526,6 @@ export default {
           oId: oid
         })
         .then(res => {
-          console.log("res", res.data);
           if (res.data == 1) {
             clearInterval(this.setIime)
             this.$message.success("成功结束抢单");

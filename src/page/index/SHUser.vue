@@ -47,7 +47,9 @@
               :alt="scope.row.officialPhotoUrl"
               style="max-height: 200px;max-width: 200px"
             ></el-image>
-            <el-image :src="scope.row.officialPhotoUrl"></el-image>
+            <div style="max-height: 800px;max-width: 800px">
+              <el-image :src="scope.row.officialPhotoUrl" style="height: 100%;width: 100%"></el-image>
+            </div>
           </el-popover>
         </template>
       </el-table-column>
@@ -74,7 +76,9 @@
                   :alt="item"
                   style="max-height: 200px;max-width: 200px"
                 ></el-image>
-                <el-image :src="item"></el-image>
+                <div style="max-height: 800px;max-width: 800px">
+                  <el-image :src="item" style="height: 100%;width: 100%"></el-image>
+                </div>
               </el-popover>
             </el-carousel-item>
           </el-carousel>
@@ -99,7 +103,7 @@
         :total="total"
       ></el-pagination>
     </div>
-     <!--查看视频-->
+    <!--查看视频-->
     <el-dialog title="视频" :visible.sync="playVideo">
       <div>
         <video :src="isVideo" controls="controls" style="width: 100%;"></video>
@@ -118,16 +122,13 @@ export default {
       tableData: [],
       currentPage3: 1, //默认展示第几页
       total: 0,
-      isVideo:'',
-      playVideo:false,
+      isVideo: "",
+      playVideo: false
     };
   },
   methods: {
-    handleSizeChange(val) {
-      console.log(`每页 ${val} 条`);
-    },
+    handleSizeChange(val) {},
     handleCurrentChange(val) {
-      console.log(`当前页: ${val}`);
       var that = this;
       this.$http
         .getBossList({
@@ -139,47 +140,47 @@ export default {
         })
         .then(res => {
           that.tableData = res.data;
-          console.log("staffList", res.data);
-          if(res.data.length != 0) {
-            this.total = res.data[0].ipage.total
+          if (res.data.length != 0) {
+            this.total = res.data[0].ipage.total;
           }
         });
     },
     // 观看video
     showVideo: function(e) {
-      console.log("e", e)
       this.playVideo = true;
       this.isVideo = e;
     },
     // 审核通过
     passUser(e) {
-      console.log(e);
-      this.$http.updateUser({
-        userId:e.userId,
-        state:2
-      }).then(res => {
-         if(res.success == true) {
-          this.handleCurrentChange(1)
-          this.$message.success("编辑人员审核通过成功")
-        } else {
-          this.handleCurrentChange(1)
-        }
-        console.log("res", res)
-      })
+      this.$http
+        .updateUser({
+          userId: e.userId,
+          state: 2
+        })
+        .then(res => {
+          if (res.success == true) {
+            this.handleCurrentChange(1);
+            this.$message.success("编辑人员审核通过成功");
+          } else {
+            this.handleCurrentChange(1);
+          }
+        });
     },
     // 审核不通过
     defaultUser(e) {
-      this.$http.updateUser({
-        userId:e.userId,
-        state:3
-      }).then(res => {
-        if(res.success == true) {
-          this.handleCurrentChange(1)
-          this.$message.success("编辑人员审核未通过成功")
-        } else {
-          this.handleCurrentChange(1)
-        }
-      })
+      this.$http
+        .updateUser({
+          userId: e.userId,
+          state: 3
+        })
+        .then(res => {
+          if (res.success == true) {
+            this.handleCurrentChange(1);
+            this.$message.success("编辑人员审核未通过成功");
+          } else {
+            this.handleCurrentChange(1);
+          }
+        });
     }
   },
   mounted() {
@@ -201,14 +202,14 @@ export default {
   margin-bottom: 0;
   width: 50%;
 }
- .playVideo:hover{
-    text-decoration: underline;
-    cursor: pointer;
-  }
-  td:hover{
-    cursor: pointer;
-  }
-  .el-carousel__container {
-    height: 208px;
-  }
+.playVideo:hover {
+  text-decoration: underline;
+  cursor: pointer;
+}
+td:hover {
+  cursor: pointer;
+}
+.el-carousel__container {
+  height: 208px;
+}
 </style>

@@ -187,7 +187,6 @@ export default {
         item.price = 0;
       });
       this.jobType = list;
-      console.log("jobType", this.jobType);
     });
   }
 };

@@ -63,10 +63,8 @@ export default {
       });
     },
     handleSizeChange(val) {
-      console.log(`每页 ${val} 条`);
     },
     handleCurrentChange(val) {
-      console.log(`当前页: ${val}`);
       var that = this;
       this.$http
         .getBossList({
@@ -78,7 +76,6 @@ export default {
         })
         .then(res => {
           that.tableData = res.data;
-          console.log("bossList", res.data);
           if(res.data.length != 0) {
             this.total = res.data[0].ipage.total
           }
@@ -97,7 +94,6 @@ export default {
         } else {
           this.handleCurrentChange(1)
         }
-        console.log("res", res)
       })
     },
     // 审核不通过

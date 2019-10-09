@@ -61,19 +61,21 @@ export default {
     getData(oid) {
       var that = this;
       that.oid = oid;
+      // console.log("oid", that.oid)
       that.$http
         .lookOrderMsgs({
           oid: oid
         })
         .then(res => {
-          console.log("msgs", res.data);
+          // console.log("msgs", res.data);
           that.orderMsg = res.data;
+          that.selectedList = [];
           that.$http
             .lookMainOrder({
               oid: that.oid
             })
             .then(res => {
-              console.log("res", res);
+              // console.log("====", res);
               // 查询订单人选
               if (res.data != -1) {
                 that.selectedList = res.data;

@@ -90,10 +90,8 @@ export default {
   },
   methods: {
     handleSizeChange(val) {
-      console.log(`每页 ${val} 条`);
     },
     handleCurrentChange(val) {
-      console.log(`当前页: ${val}`);
       var that = this;
       this.$http
         .getBossList({
@@ -105,7 +103,6 @@ export default {
         })
         .then(res => {
           that.tableData = res.data;
-          console.log("bossPassList", res.data);
           if(res.data.length != 0) {
             this.total = res.data[0].ipage.total
           }
@@ -164,7 +161,6 @@ export default {
           contentType: false // 告诉jquery不要设置content-Type请求头
         })
         .then(res => {
-          console.log("postStatus", res);
           if (res.data.success == true) {
             _this.$message.success("信息修改成功");
             _this.handleCurrentChange(1);
@@ -177,7 +173,6 @@ export default {
     // 禁用
     changeStatus(row) {
       var that = this;
-      console.log("defaultRow", row);
       that.reload();
     }
   },

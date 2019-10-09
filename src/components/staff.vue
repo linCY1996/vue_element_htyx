@@ -63,13 +63,15 @@
               :alt="scope.row.officialPhotoUrl"
               style="max-height: 200px;max-width: 200px"
             ></el-image>
-            <el-image :src="scope.row.officialPhotoUrl"></el-image>
+            <div style="max-height: 800px;max-width: 800px">
+              <el-image :src="scope.row.officialPhotoUrl" style="height: 100%;width: 100%"></el-image>
+            </div>
           </el-popover>
         </template>
       </el-table-column>
       <el-table-column label="视频" prop="cTypeName">
         <template slot-scope="scope">
-          <span
+          <span 
             v-if="scope.row.videoUrl!=null"
             style="color: #66b1ff"
             class="playVideo"
@@ -90,7 +92,9 @@
                   :alt="item"
                   style="max-height: 200px;max-width: 200px"
                 ></el-image>
-                <el-image :src="item"></el-image>
+                 <div style="max-height: 800px;max-width: 800px">
+                  <el-image :src="item" style="height: 100%;width: 100%"></el-image>
+                </div>
               </el-popover>
             </el-carousel-item>
           </el-carousel>
@@ -391,10 +395,8 @@ export default {
   },
   methods: {
     handleSizeChange(val) {
-      console.log(`每页 ${val} 条`);
     },
     handleCurrentChange(val) {
-      console.log(`当前页: ${val}`);
       // var that = this;
       this.$http
         .getBossList({
@@ -410,7 +412,6 @@ export default {
             item.index = i+1;
           });
           this.tableData = list;
-          console.log("staffList", res);
           if (res.data.length != 0) {
             this.total = res.data[0].ipage.total;
           }
@@ -418,13 +419,11 @@ export default {
     },
     // 观看video
     showVideo: function(e) {
-      console.log("e", e);
       this.playVideo = true;
       this.isVideo = e;
     },
     // 修改信息
     updateUser(e) {
-      console.log(e);
       this.xiugai = true;
       this.userId = e.userId;
       this.userName = e.userName;
@@ -469,7 +468,6 @@ export default {
         })
         .then(res => {
           this.tableData = res.data;
-          console.log("staffList", res);
           if (res.data.length != 0) {
             this.total = res.data[0].ipage.total;
           }
@@ -496,7 +494,6 @@ export default {
           contentType: false // 告诉jquery不要设置content-Type请求头
         })
         .then(res => {
-          console.log("res", res);
           if (res.data.success == true) {
             that.$message.success("视频添加成功");
             that.dolphinVideoUrl = res.data.data;
@@ -530,7 +527,6 @@ export default {
           contentType: false // 告诉jquery不要设置content-Type请求头
         })
         .then(res => {
-          console.log("imgs=", res);
           if (res.data.success == true) {
             _this.photoList1 = res.data.data;
             _this.$message.success("图片修改成功");
@@ -741,7 +737,6 @@ export default {
     },
     //上传表单
     submitForm: function(videoUrl) {
-      console.log("45454");
       let file = document.getElementById("staffvideo").files[0];
       //console.log(file)
       if (videoUrl == null || videoUrl == undefined) {
@@ -763,7 +758,6 @@ export default {
       formData.append("hipLine", this.hipLine);
       formData.append("price", this.price);
       formData.append("jobType", 2);
-      console.log(formData);
       let _this = this;
       _this
         .$ajax({
@@ -787,7 +781,6 @@ export default {
     }
   },
   mounted() {
-    console.log("types", this.isType);
     switch (this.isType) {
       case "liyi":
         this.cid = 1;

@@ -55,10 +55,10 @@ export default {
   },
   methods: {
     handleSizeChange(val) {
-      console.log(`每页 ${val} 条`);
+      // console.log(`每页 ${val} 条`);
     },
     handleCurrentChange(val) {
-      console.log(`当前页: ${val}`);
+      // console.log(`当前页: ${val}`);
       var that = this;
       this.$http
         .showOrderList({
@@ -67,7 +67,7 @@ export default {
         })
         .then(res => {
           that.tableData = res.data;
-          console.log("bossList", res.data);
+          // console.log("bossList", res.data);
           if(res.data.length != 0) {
             this.total = res.data[0].ipage.total
           }

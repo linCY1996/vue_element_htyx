@@ -16,7 +16,9 @@
               :alt="scope.row.photoUrl"
               style="max-height: 200px;max-width: 200px"
             ></el-image>
-            <el-image :src="scope.row.photoUrl"></el-image>
+             <div style="max-height: 800px;max-width: 800px">
+              <el-image :src="scope.row.photoUrl" style="height: 100%;width: 100%"></el-image>
+            </div>
           </el-popover>
         </template>
       </el-table-column>
@@ -51,17 +53,14 @@ export default {
   },
   methods: {
     handleSizeChange(val) {
-      console.log(`每页 ${val} 条`);
     },
     handleCurrentChange(val) {
-      console.log(`当前页: ${val}`);
       this.$http
         .lookLvli({
           page: this.currentPage3
         })
         .then(res => {
           this.tableData = res.data;
-          console.log("lvliList", res.data);
           if(res.data.length != 0) {
             this.total = res.data[0].ipage.total
           }

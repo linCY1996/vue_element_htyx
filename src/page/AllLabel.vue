@@ -73,7 +73,6 @@ export default {
     // 初始化
     getData() {
       this.$http.lookUserTagAll({}).then(res => {
-        console.log("Usertag", res.data);
         this.tableData = res.data;
       });
     },
@@ -117,7 +116,6 @@ export default {
   mounted() {
     this.getData()
     this.$http.lookAlltag({}).then(res => {
-      console.log("Alltag", res.data);
       this.tagArr = res.data;
     });
   }

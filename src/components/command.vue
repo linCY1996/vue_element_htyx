@@ -58,10 +58,8 @@ export default {
   },
   methods: {
     handleSizeChange(val) {
-      console.log(`每页 ${val} 条`);
     },
     handleCurrentChange(val) {
-      console.log(`当前页: ${val}`);
       this.$http
         .showCommandList({
           page: this.currentPage3,
@@ -69,7 +67,6 @@ export default {
         })
         .then(res => {
           this.tableData = res.data;
-          console.log("CommandList", res.data);
           if(res.data.length != 0) {
             this.total = res.data[0].ipage.total
           }
@@ -77,11 +74,9 @@ export default {
     },
     // 删除
     delPing(e) {
-        console.log("e", e)
         this.$http.delCommand({
             eId:e
         }).then(res => {
-            console.log("res", res)
             if(res.success == true) {
                 this.$message.success("评论删除成功")
                 this.handleCurrentChange(1)
