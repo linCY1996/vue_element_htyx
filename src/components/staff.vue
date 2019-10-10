@@ -71,7 +71,7 @@
       </el-table-column>
       <el-table-column label="视频" prop="cTypeName">
         <template slot-scope="scope">
-          <span 
+          <span
             v-if="scope.row.videoUrl!=null"
             style="color: #66b1ff"
             class="playVideo"
@@ -92,7 +92,7 @@
                   :alt="item"
                   style="max-height: 200px;max-width: 200px"
                 ></el-image>
-                 <div style="max-height: 800px;max-width: 800px">
+                <div style="max-height: 800px;max-width: 800px">
                   <el-image :src="item" style="height: 100%;width: 100%"></el-image>
                 </div>
               </el-popover>
@@ -212,12 +212,18 @@
 
         <div>
           <span>个人模卡:</span>
-          <el-image
-            :src="officialPhotoUrl"
-            id="img4"
-            style="width: 80px;height: 80px"
-            fit="contain"
-          ></el-image>
+          <el-popover placement="right" title trigger="click">
+            <el-image
+              slot="reference"
+              id="img4"
+              :src="officialPhotoUrl"
+              :alt="officialPhotoUrl"
+              style="max-height: 80px;max-width: 80px"
+            ></el-image>
+            <div style="max-height: 400px;max-width: 400px">
+              <el-image :src="officialPhotoUrl" style="height: 100%;width: 100%"></el-image>
+            </div>
+          </el-popover>
           <input type="file" id="newimg4" name="card" />
           <el-button
             size="mini"
@@ -226,25 +232,115 @@
           >上传</el-button>
         </div>
         <el-divider></el-divider>
+        <!-- 个人履历 -->
 
+        <div style="display: flex;flex-direction: row">
+          <div>
+            <span>个人履历:</span>
+          </div>
+          <div style="margin-right: 20px;display: flex;flex-direction: column">
+            <!-- <el-image :src="photoList1" id="img1" style="width: 80px;height: 80px" fit="contain"></el-image> -->
+            <el-popover placement="right" title trigger="click">
+              <el-image
+                slot="reference"
+                :src="lvliImgs1"
+                :alt="lvliImgs1"
+                id="img1"
+                style="max-height: 80px;max-width: 80px"
+              ></el-image>
+              <div style="max-height: 400px;max-width: 400px">
+                <el-image :src="lvliImgs1" style="height: 100%;width: 100%"></el-image>
+              </div>
+            </el-popover>
+          </div>
+
+          <div style="margin-right: 20px;display: flex;flex-direction: column">
+             <el-popover placement="right" title trigger="click">
+              <el-image
+                slot="reference"
+                :src="lvliImgs2"
+                :alt="lvliImgs2"
+                id="img2"
+                style="max-height: 80px;max-width: 80px"
+              ></el-image>
+              <div style="max-height: 400px;max-width: 400px">
+                <el-image :src="lvliImgs2" style="height: 100%;width: 100%"></el-image>
+              </div>
+            </el-popover>
+          </div>
+          <div style="margin-right: 20px;display: flex;flex-direction: column">
+            <!-- <el-image :src="photoList3" id="img3" style="width: 80px;height: 80px" fit="contain"></el-image> -->
+            <el-popover placement="right" title trigger="click">
+              <el-image
+                slot="reference"
+                :src="lvliImgs3"
+                :alt="lvliImgs3"
+                id="img3"
+                style="max-height: 80px;max-width: 80px"
+              ></el-image>
+              <div style="max-height: 400px;max-width: 400px">
+                <el-image :src="lvliImgs3" style="height: 100%;width: 100%"></el-image>
+              </div>
+            </el-popover>
+          </div>
+        </div>
+        <el-divider></el-divider>
+
+        <!-- 个人照片 -->
         <div style="display: flex;flex-direction: row">
           <div>
             <span>个人照片:</span>
           </div>
 
           <div style="margin-right: 20px;display: flex;flex-direction: column">
-            <el-image :src="photoList1" id="img1" style="width: 80px;height: 80px" fit="contain"></el-image>
+            <!-- <el-image :src="photoList1" id="img1" style="width: 80px;height: 80px" fit="contain"></el-image> -->
+            <el-popover placement="right" title trigger="click">
+              <el-image
+                slot="reference"
+                :src="photoList1"
+                :alt="photoList1"
+                id="img1"
+                style="max-height: 80px;max-width: 80px"
+              ></el-image>
+              <div style="max-height: 400px;max-width: 400px">
+                <el-image :src="photoList1" style="height: 100%;width: 100%"></el-image>
+              </div>
+            </el-popover>
             <input type="file" id="newimg1" style="font-size: 10px" name="file" />
             <el-button size="mini" style="width: 60px;margin-top: 20px" @click="img1(photoList1)">上传</el-button>
           </div>
 
           <div style="margin-right: 20px;display: flex;flex-direction: column">
-            <el-image :src="photoList2" id="img2" style="width: 80px;height: 80px" fit="contain"></el-image>
+            <!-- <el-image :src="photoList2" id="img2" style="width: 80px;height: 80px" fit="contain"></el-image> -->
+             <el-popover placement="right" title trigger="click">
+              <el-image
+                slot="reference"
+                :src="photoList2"
+                :alt="photoList2"
+                id="img2"
+                style="max-height: 80px;max-width: 80px"
+              ></el-image>
+              <div style="max-height: 400px;max-width: 400px">
+                <el-image :src="photoList2" style="height: 100%;width: 100%"></el-image>
+              </div>
+            </el-popover>
             <input type="file" id="newimg2" style="font-size: 10px" name="file" />
             <el-button size="mini" style="width: 60px;margin-top: 20px" @click="img2(photoList2)">上传</el-button>
           </div>
           <div style="margin-right: 20px;display: flex;flex-direction: column">
-            <el-image :src="photoList3" id="img3" style="width: 80px;height: 80px" fit="contain"></el-image>
+            <!-- <el-image :src="photoList3" id="img3" style="width: 80px;height: 80px" fit="contain"></el-image> -->
+            <el-popover placement="right" title trigger="click">
+              <el-image
+                slot="reference"
+                :src="photoList3"
+                :alt="photoList3"
+                id="img3"
+                style="max-height: 80px;max-width: 80px"
+              ></el-image>
+              <div style="max-height: 400px;max-width: 400px">
+                <el-image :src="photoList3" style="height: 100%;width: 100%"></el-image>
+              </div>
+            </el-popover>
             <input type="file" id="newimg3" style="font-size: 10px" name="file" />
             <el-button size="mini" style="width: 60px;margin-top: 20px" @click="img3(photoList3)">上传</el-button>
           </div>
@@ -257,12 +353,24 @@
           </div>
 
           <div style="margin-right: 20px;display: flex;flex-direction: column">
-            <el-image
+            <!-- <el-image
               :src="dolphinPicList1"
               id="img5"
               style="width: 80px;height: 80px"
               fit="contain"
-            ></el-image>
+            ></el-image> -->
+            <el-popover placement="right" title trigger="click">
+              <el-image
+                slot="reference"
+                :src="dolphinPicList1"
+                :alt="dolphinPicList1"
+                id="img5"
+                style="max-height: 80px;max-width: 80px"
+              ></el-image>
+              <div style="max-height: 400px;max-width: 400px">
+                <el-image :src="dolphinPicList1" style="height: 100%;width: 100%"></el-image>
+              </div>
+            </el-popover>
             <input type="file" id="newimg5" style="font-size: 10px" name="file" />
             <el-button
               size="mini"
@@ -272,12 +380,18 @@
           </div>
 
           <div style="margin-right: 20px;display: flex;flex-direction: column">
-            <el-image
-              :src="dolphinPicList2"
-              id="img6"
-              style="width: 80px;height: 80px"
-              fit="contain"
-            ></el-image>
+            <el-popover placement="right" title trigger="click">
+              <el-image
+                slot="reference"
+                :src="dolphinPicList2"
+                :alt="dolphinPicList2"
+                id="img6"
+                style="max-height: 80px;max-width: 80px"
+              ></el-image>
+              <div style="max-height: 400px;max-width: 400px">
+                <el-image :src="dolphinPicList2" style="height: 100%;width: 100%"></el-image>
+              </div>
+            </el-popover>
             <input type="file" id="newimg6" style="font-size: 10px" name="file" />
             <el-button
               size="mini"
@@ -286,12 +400,24 @@
             >上传</el-button>
           </div>
           <div style="margin-right: 20px;display: flex;flex-direction: column">
-            <el-image
+            <!-- <el-image
               :src="dolphinPicList3"
               id="img7"
               style="width: 80px;height: 80px"
               fit="contain"
-            ></el-image>
+            ></el-image> -->
+            <el-popover placement="right" title trigger="click">
+              <el-image
+                slot="reference"
+                :src="dolphinPicList3"
+                :alt="dolphinPicList3"
+                id="img7"
+                style="max-height: 80px;max-width: 80px"
+              ></el-image>
+              <div style="max-height: 400px;max-width: 400px">
+                <el-image :src="dolphinPicList3" style="height: 100%;width: 100%"></el-image>
+              </div>
+            </el-popover>
             <input type="file" id="newimg7" style="font-size: 10px" name="file" />
             <el-button
               size="mini"
@@ -376,6 +502,9 @@ export default {
       videoUrl: "",
       officialPhotoUrl: "",
       photoList: "",
+      lvliImgs1: "",   //履历1
+      lvliImgs2: "",  //履历2
+      lvliImgs3: "",  //lvli3
       photoList1: "",
       photoList2: "",
       photoList3: "",
@@ -394,8 +523,7 @@ export default {
     };
   },
   methods: {
-    handleSizeChange(val) {
-    },
+    handleSizeChange(val) {},
     handleCurrentChange(val) {
       // var that = this;
       this.$http
@@ -408,8 +536,9 @@ export default {
         })
         .then(res => {
           var list = res.data;
+          console.log("list", list)
           list.forEach(function(item, i) {
-            item.index = i+1;
+            item.index = i + 1;
           });
           this.tableData = list;
           if (res.data.length != 0) {
@@ -436,6 +565,20 @@ export default {
       this.officialPhotoUrl = e.officialPhotoUrl;
       this.dolphinVideoUrl = e.dolphinVideoUrl;
       this.photoList = e.photoList;
+      if(e.recordList != null) {
+        if(e.recordList.length == 1) {
+          this.lvliImgs1 = e.recordList[0].activityPicUrl;
+        }else if (e.recordList.length == 2) {
+           this.lvliImgs1 = e.recordList[0].activityPicUrl;
+          this.lvliImgs1 = e.recordList[1].activityPicUrl;
+        }else if(e.recordList.length == 2) {
+           this.lvliImgs1 = e.recordList[0].activityPicUrl;
+          this.lvliImgs1 = e.recordList[1].activityPicUrl;
+          this.lvliImgs1 = e.recordList[2].activityPicUrl;
+        }
+      }
+      this.lvliImgs2 = e.recordList[1];
+      this.lvliImgs3 = e.recordList[2];
       this.photoList1 = e.photoList[0];
       this.photoList2 = e.photoList[1];
       this.photoList3 = e.photoList[2];
@@ -587,7 +730,7 @@ export default {
       _this
         .$ajax({
           url: _this.Global.host + "/user/updateFile",
-          methods: "POST",
+          method: "POST",
           data: formData,
           processData: false, //  告诉jquery不要处理发送的数据
           contentType: false // 告诉jquery不要设置content-Type请求头

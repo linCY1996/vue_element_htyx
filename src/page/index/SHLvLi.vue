@@ -8,18 +8,21 @@
       <el-table-column prop="beginTime" label="活动时间"></el-table-column>
       <el-table-column prop="address" label="照片">
         <template slot-scope="scope">
-          <el-popover placement="right" title trigger="click">
-            <el-image
-              slot="reference"
-              fit="contain"
-              :src="scope.row.photoUrl"
-              :alt="scope.row.photoUrl"
-              style="max-height: 200px;max-width: 200px"
-            ></el-image>
-             <div style="max-height: 800px;max-width: 800px">
-              <el-image :src="scope.row.photoUrl" style="height: 100%;width: 100%"></el-image>
-            </div>
-          </el-popover>
+          <el-carousel indicator-position="outside" :height="`192px`">
+            <el-carousel-item v-for="item in scope.row.photoUrl" :key="item">
+              <el-popover placement="right" title trigger="click">
+                <el-image
+                  slot="reference"
+                  :src="item"
+                  :alt="item"
+                  style="max-height: 200px;max-width: 200px"
+                ></el-image>
+                 <div style="max-height: 800px;max-width: 800px">
+                  <el-image :src="item" style="height: 100%;width: 100%"></el-image>
+                </div>
+              </el-popover>
+            </el-carousel-item>
+          </el-carousel>
         </template>
       </el-table-column>
       <el-table-column prop="address" label="审核">
@@ -60,7 +63,13 @@ export default {
           page: this.currentPage3
         })
         .then(res => {
-          this.tableData = res.data;
+          var list = res.data;
+          list.forEach(function (item) {
+            item.photoUrl = item.photoUrl.split('-')
+          })
+          this.tableData = list
+          console.log("dataList", this.tableData)
+          
           if(res.data.length != 0) {
             this.total = res.data[0].ipage.total
           }
