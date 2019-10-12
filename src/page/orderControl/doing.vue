@@ -238,7 +238,9 @@ export default {
               oid: orderMsgs.oid
             })
             .then(res => {
-              this.realStaff = res.data;
+              if(res.data != -1) {
+                this.realStaff = res.data;
+              }
             });
         });
     },

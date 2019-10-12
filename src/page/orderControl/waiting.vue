@@ -129,7 +129,11 @@
     </el-dialog>
 
     <!--查看抢单状态-->
-    <el-dialog :title="'海豚印象订单'+oneOrder.oid+'的抢单情况'" :visible.sync="dialogVisible">
+    <el-dialog
+      :title="'海豚印象订单'+oneOrder.oid+'的抢单情况'"
+      :visible.sync="dialogVisible"
+      :before-close="closeDialog"
+    >
       <div style="display: flex;flex-direction: column;align-items: flex-start;font-weight: 700">
         <div>
           <span>活动地址:</span>
@@ -179,7 +183,7 @@
                   style="width: 100%;height: 400px;overflow-y:auto;display: flex;flex-direction: row;flex-wrap: wrap;"
                 >
                   <el-checkbox
-                    v-for="(item,index) in staffA"
+                    v-for="(item,index) in selectedList"
                     :label="item.userId"
                     name="type"
                     :key="index"
@@ -195,29 +199,12 @@
                   </el-checkbox>
                 </el-checkbox-group>
               </el-form-item>
-              <div style="width: 100%;height: 400px;overflow-y:auto;">
-                <div style="display: flex;flex-wrap: wrap;">
-                  <div style="text-align: left">已选人员</div>
-                  <div
-                    style="display: inline-block;margin-right: 10px"
-                    v-for="(item,index) in selectedList"
-                    :key="index"
-                  >
-                    <el-image style="width: 80px; height: 80px" :src="item.photoUrl" fit="cover"></el-image>
-                    <div>
-                      <span>{{item.cname}}</span>
-                      &nbsp;&nbsp;<span>{{item.userName}}</span>
-                    </div>
-                    <div>价格:{{item.price}}</div>
-                  </div>
-                </div>
-              </div>
             </el-form>
           </div>
         </div>
       </div>
       <div slot="footer" class="dialog-footer" style="text-align:center">
-        <el-button @click.native="dialogVisible = false" @click="qiang=0">关闭</el-button>
+        <el-button @click="closeDialog">关闭</el-button>
       </div>
     </el-dialog>
 
@@ -381,18 +368,17 @@ export default {
       qiang: 0,
       staffA: [], //所有可选择的人员
       qiangForm: {
-        userId: [],   //已选人员
-        outUserId:[]   //删除已选人员
+        userId: [], //已选人员
+        outUserId: [] //删除已选人员
       },
       selectedList: [], //所有可选择抢单人员
       isCart: false,
       cartList: "",
-      setIime:{},
+      setIime: {}
     };
   },
   methods: {
-    handleSizeChange(val) {
-    },
+    handleSizeChange(val) {},
     handleCurrentChange(val) {
       var that = this;
       this.$http
@@ -405,10 +391,15 @@ export default {
         })
         .then(res => {
           that.tableData = res.data;
-          if(res.data.length != 0) {
-            this.total = res.data[0].ipage.total
+          if (res.data.length != 0) {
+            this.total = res.data[0].ipage.total;
           }
         });
+    },
+    // 关闭发布订单弹窗
+    closeDialog() {
+      clearInterval(this.setIime);
+      this.dialogVisible = false;
     },
     // 显示甲方需求
     showCart(cartList, aname, activityAddress, beforetime, aftertime, remark) {
@@ -487,12 +478,12 @@ export default {
           that.qiang = 1;
           var oid = that.oneOrder.oid;
           that.$http
-              .finddependOrderUser({
-                oid: oid
-              })
-              .then(res => {
-                that.staffA = res.data;
-              });
+            .finddependOrderUser({
+              oid: oid
+            })
+            .then(res => {
+              that.staffA = res.data;
+            });
           that.setIime = setInterval(function() {
             that.$http
               .finddependOrderUser({
@@ -508,7 +499,9 @@ export default {
               oid: this.oneOrder.oid
             })
             .then(res => {
-              this.selectedList = res.data;
+              if (res.data != -1) {
+                this.selectedList = res.data;
+              }
             });
         });
     },
@@ -543,14 +536,16 @@ export default {
     },
     // 确定移除已选人员
     goOutSelected() {
-      this.$http.delSelectUser({
-        userId:this.qiangForm.outUserId[0],
-        orderId:this.oneOrder.oid
-      }).then(res => {
-        this.showOneOrder(this.oneOrder.oid)
-        this.qiangForm.outUserId = []
-        console.log("res", res)
-      })
+      this.$http
+        .delSelectUser({
+          userId: this.qiangForm.outUserId[0],
+          orderId: this.oneOrder.oid
+        })
+        .then(res => {
+          this.showOneOrder(this.oneOrder.oid);
+          this.qiangForm.outUserId = [];
+          console.log("res", res);
+        });
     },
     // 结束抢单
     toStart(oid) {
@@ -560,7 +555,7 @@ export default {
         })
         .then(res => {
           if (res.data == 1) {
-            clearInterval(this.setIime)
+            clearInterval(this.setIime);
             this.$message.success("成功结束抢单");
             this.handleCurrentChange(1);
           }
